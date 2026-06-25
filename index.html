@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Studio Pro</title>
+  <style>
+    :root{
+      --bg:#071018;
+      --panel:rgba(10,18,30,.72);
+      --text:#eef4ff;
+      --muted:#95a3b8;
+      --line:rgba(255,255,255,.10);
+      --a:#2dd4bf;
+      --b:#8b5cf6;
+      --c:#fb7185;
+      --shadow:0 24px 80px rgba(0,0,0,.38);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(45,212,191,.16), transparent 24%),
+        radial-gradient(circle at 80% 10%, rgba(139,92,246,.18), transparent 20%),
+        linear-gradient(180deg,#050a10,#071018 55%,#08131d);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:22px}
+    .glass{
+      background:var(--panel);
+      border:1px solid var(--line);
+      backdrop-filter:blur(18px) saturate(150%);
+      -webkit-backdrop-filter:blur(18px) saturate(150%);
+      box-shadow:var(--shadow);
+    }
+    .topbar{
+      position:sticky;top:14px;z-index:20;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 18px;border-radius:20px
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em}
+    .mark{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 0 22px rgba(45,212,191,.8)}
+    nav{display:flex;gap:18px;flex-wrap:wrap}
+    nav a{color:var(--muted);text-decoration:none;font-size:.95rem}
+    nav a:hover{color:var(--text)}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:12px 18px;border-radius:999px;text-decoration:none;font-weight:700;
+      color:#071018;background:linear-gradient(135deg,var(--a),#a7f3d0);
+      transition:transform .2s ease,filter .2s ease
+    }
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+    .btn.alt{background:transparent;color:var(--text);border:1px solid var(--line)}
+    .hero{
+      display:grid;grid-template-columns:1.05fr .95fr;gap:24px;
+      min-height:78vh;align-items:center;padding:20px 0 10px
+    }
+    .eyebrow{
+      display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.05);border:1px solid var(--line);
+      color:#c7d3e7;font-size:.84rem;letter-spacing:.08em;text-transform:uppercase
+    }
+    h1{
+      margin:16px 0 14px;
+      font-size:clamp(2.9rem,6.2vw,6rem);
+      line-height:.93;letter-spacing:-.05em
+    }
+    .grad{
+      background:linear-gradient(135deg,#fff 8%,#89f7e4 42%,#c4b5fd 72%,#fb7185 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent
+    }
+    .lead{max-width:58ch;color:var(--muted);font-size:1.06rem;line-height:1.85}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
+    .metric{padding:16px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--line)}
+    .metric strong{display:block;font-size:1.1rem}
+    .metric span{color:var(--muted);font-size:.92rem}
+    .showcase{position:relative;min-height:620px;display:grid;place-items:center}
+    .halo{position:absolute;border-radius:50%;filter:blur(20px);opacity:.45;animation:drift 11s ease-in-out infinite}
+    .h1{width:220px;height:220px;background:rgba(45,212,191,.28);top:40px;left:40px}
+    .h2{width:260px;height:260px;background:rgba(139,92,246,.22);bottom:40px;right:20px;animation-delay:-4s}
+    .frame{
+      width:min(100%,480px);border-radius:30px;padding:18px;
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
+      border:1px solid var(--line);
+      transform:perspective(1300px) rotateX(7deg) rotateY(-10deg)
+    }
+    .screen{
+      border-radius:22px;
+      background:radial-gradient(circle at top left, rgba(45,212,191,.16), transparent 30%),radial-gradient(circle at top right, rgba(251,113,133,.14), transparent 28%),rgba(8,13,20,.95);
+      border:1px solid rgba(255,255,255,.08);padding:18px
+    }
+    .screen-head{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:.9rem;margin-bottom:14px}
+    .dots{display:flex;gap:8px}.dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.14);display:block}
+    .bento{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+    .tile{border-radius:20px;padding:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+    .tile.big{min-height:200px;background:linear-gradient(135deg,rgba(45,212,191,.12),rgba(139,92,246,.10))}
+    .tile h3,.tile h4{margin:0}.tile p{color:var(--muted);line-height:1.65;margin:8px 0 0}
+    .stack{display:grid;gap:14px}.mini{min-height:93px;display:flex;align-items:flex-end}
+    .section{margin-top:22px;padding:22px;border-radius:28px}
+    .section h2{margin:0 0 10px;font-size:1.8rem}
+    .section p.sub{margin:0;color:var(--muted);max-width:62ch;line-height:1.75}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    .card{padding:20px;border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);transition:transform .25s ease,border-color .25s ease,background .25s ease}
+    .card:hover{transform:translateY(-6px);border-color:rgba(45,212,191,.35);background:rgba(255,255,255,.07)}
+    .card .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:#d8e2f2;font-size:.8rem;margin-bottom:12px}
+    .proof{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+    .proof div{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#dde7f6;line-height:1.6}
+    .cta{display:grid;grid-template-columns:1fr .9fr;gap:18px;align-items:stretch}
+    .cta-box{padding:26px;border-radius:28px;background:linear-gradient(135deg,rgba(45,212,191,.14),rgba(139,92,246,.12));border:1px solid rgba(255,255,255,.10)}
+    .contact p{margin:10px 0;color:var(--muted)}
+    footer{text-align:center;padding:28px 0 18px;color:var(--muted)}
+    @keyframes drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-14px) scale(1.05)}}
+    @media (max-width: 940px){
+      nav{display:none}
+      .hero,.cards,.cta,.proof,.metrics,.bento{grid-template-columns:1fr}
+      .showcase{min-height:430px}
+      .frame{transform:none}
+      .topbar{border-radius:24px;top:10px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar glass">
+      <div class="brand"><span class="mark"></span>Nova Studio Pro</div>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn" href="#contact">Book a Call</a>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Professional web experience</div>
+        <h1>Build a website that looks <span class="grad">premium</span> and performs.</h1>
+        <p class="lead">This version is more polished, more corporate, and more suitable for real clients. It uses glass panels, clean spacing, stronger hierarchy, and subtle motion so the site feels modern without looking crowded.</p>
+        <div class="actions">
+          <a class="btn" href="#services">Explore Services</a>
+          <a class="btn alt" href="#work">View Highlights</a>
+        </div>
+        <div class="metrics">
+          <div class="metric"><strong>Responsive</strong><span>Works on all screen sizes</span></div>
+          <div class="metric"><strong>Professional</strong><span>Clean and trusted look</span></div>
+          <div class="metric"><strong>Fast</strong><span>Lightweight front-end only</span></div>
+        </div>
+      </div>
+
+      <div class="showcase">
+        <div class="halo h1"></div>
+        <div class="halo h2"></div>
+        <div class="frame">
+          <div class="screen">
+            <div class="screen-head">
+              <div class="dots"><i></i><i></i><i></i></div>
+              <span>Dashboard Preview</span>
+            </div>
+            <div class="bento">
+              <div class="tile big">
+                <h3>Creative strategy</h3>
+                <p>A refined landing page layout designed to build trust and guide attention.</p>
+                <p><strong>Brand-first • Clear CTA • Modern UI</strong></p>
+              </div>
+              <div class="stack">
+                <div class="tile mini"><div><h4>UI System</h4><p>Consistent components and spacing.</p></div></div>
+                <div class="tile mini"><div><h4>Motion</h4><p>Subtle, professional animation feel.</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section glass">
+      <h2>Services</h2>
+      <p class="sub">A professional site should feel organized, trustworthy, and easy to scan. These service cards keep the layout simple while still feeling premium.</p>
+      <div class="cards">
+        <div class="card"><span class="tag">Landing Pages</span><h3>Conversion-focused design</h3><p>Strong hero sections, better call-to-action placement, and a clear story flow.</p></div>
+        <div class="card"><span class="tag">Portfolio Sites</span><h3>Clean personal branding</h3><p>Great for freelancers, creators, and anyone who wants a polished online presence.</p></div>
+        <div class="card"><span class="tag">Business Sites</span><h3>Client-ready structure</h3><p>Ideal for agencies and small businesses that need trust and clarity.</p></div>
+      </div>
+    </section>
+
+    <section id="work" class="section glass">
+      <h2>Why it feels more professional</h2>
+      <p class="sub">The visual language is more restrained, the typography is stronger, and the card system is cleaner. That combination makes the page look expensive instead of flashy.</p>
+      <div class="proof">
+        <div>One consistent accent system.</div>
+        <div>More white space for readability.</div>
+        <div>Sharper hierarchy in headings and sections.</div>
+        <div>Better CTA focus for conversions.</div>
+      </div>
+    </section>
+
+    <section id="contact" class="section cta">
+      <div class="cta-box">
+        <h2 style="margin-top:0">Ready for launch</h2>
+        <p class="sub">Use this as a strong starting point for a real website. If needed, the next step can be adding JavaScript features like menu animation, typing text, form validation, or section reveal effects.</p>
+        <a class="btn" href="mailto:hello@novastudio.example">Start Project</a>
+      </div>
+      <div class="glass contact" style="padding:26px;border-radius:28px">
+        <h3 style="margin-top:0">Contact</h3>
+        <p>Email: hello@novastudio.example</p>
+        <p>Phone: +91 90000 00000</p>
+        <p>Location: Gorakhpur, India</p>
+      </div>
+    </section>
+
+    <footer>© 2026 Nova Studio Pro</footer>
+  </div>
+</body>
+</html>
+
